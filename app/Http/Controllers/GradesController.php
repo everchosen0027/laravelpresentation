@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Grades;
+use App\Models\EnrolledSubjects;
+use App\Models\StudentInfo;
 
 class GradesController extends Controller
 {
@@ -13,7 +15,7 @@ class GradesController extends Controller
     public function index()
     {
         //
-        $grades = Grades:: all();
+        $grades = Grades:: join('studentinfo', 'grades.sNo', '=', 'studentinfo.sno')->get();
         return view('grade.index' , compact('grades'));
     }
 
@@ -31,36 +33,26 @@ class GradesController extends Controller
     public function store(Request $request)
     {
         //
-        $validateData =$request->validate([
-            'xgNo' => ['required'],
-            'xesNo' =>['required'],
-            'xsNo'=>['required'],
-            'xprelim' =>['required','precision:3','scale:2'],
-            'xmidterm' =>['required','precision:3','scale:2'],
-            'xfinal' =>['required','precision:3','scale:2'],
-            'xremarks' =>['required','max:4']
-        ]);
-        
         $grades = new Grades();
-        $grades->gNo=$request->xgNo;
+
         $grades->esNo=$request->xesNo;
-        $grades->sNo=$request->sNo;
+        $grades->sNo=$request->xsNo;
         $grades->prelim=$request->xprelim;
         $grades->midterm=$request->xmidterm;
-        $grades->final=$request->xfinal;
+        $grades->finals=$request->xfinals;
         $grades->remarks=$request->xremarks;
-        $grades ->save();
+        $grades->save();
         return redirect()->route('grade');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $integer)
+    public function show(string $id)
     {
         //
-        $grades = Grades::where('esNo', $integer)->get();
-        return view('grade.show', compact('grade'));
+        $grades = Grades::where('gNo', $id)->get();
+        return view('grade.show', compact('grades'));
     }
 
     /**
@@ -69,8 +61,8 @@ class GradesController extends Controller
     public function edit(string $id)
     {
         //
-        $grades = Grades::where('esNo', $id)->get();
-        return view('grade.edit', compact('grade'));
+        $grades = Grades::where('gNo', $id)->get();
+        return view('grade.edit', compact('grades'));
     }
 
     /**
@@ -79,25 +71,11 @@ class GradesController extends Controller
     public function update(Request $request, string $id)
     {
         //
-        $validateData =$request->validate([
-            'xgNo' => ['required'],
-            'xesNo' =>['required'],
-            'xsNo'=>['required'],
-            'xprelim' =>['required','precision:3','scale:2'],
-            'xmidterm' =>['required','precision:3','scale:2'],
-            'xfinal' =>['required','precision:3','scale:2'],
-            'xremarks' =>['required','max:4']
-        ]);
-
-        
-        $grades = Grades::where('esNo', $id)
+        $grades = Grades::where('gNo', $id)
         ->update(
-             [  'gNo'=> $request->xgNo,
-                'esNo'=>$request->xesNo,
-                'sNo'=>$request->sNo,
-                'prelim'=>$request->xprelim,
+             [  'prelim'=>$request->xprelim,
                 'midterm'=>$request->xmidterm,
-                'final'=>$request->xfinal,
+                'finals'=>$request->xfinals,
                 'remarks'=>$request->xremarks
              ]);
         return redirect()->route('grade');
@@ -109,8 +87,13 @@ class GradesController extends Controller
     public function destroy(string $id)
     {
         //
-        $grades = Grades::where('esNo', $id);
+        $grades = Grades::where('gNo', $id);
         $grades->delete();
         return redirect()->route('grade');
+    }
+    public function getEnrolledSubjects(){
+        $enrolledsubjects = EnrolledSubjects::all();
+        $studentinfo = StudentInfo::all();
+        return view('grade.add',compact('enrolled_subjects', 'studentinfo'));
     }
 }

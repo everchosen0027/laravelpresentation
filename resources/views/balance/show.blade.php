@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Grades Information') }}
+            {{ __('Balance') }}
         </h2>
     </x-slot>
 
@@ -13,27 +13,23 @@
                     <h6>List of Grades</h6>
                     <table class="border-separate border-spacing-5">
                       <tr>
-                        <th>Enrolled Subjects Number</th>
                         <th>Student Number</th>
-                        <th>Prelim</th>
-                        <th>Midterm</th>
-                        <th>Final</th>
-                        <th>Remarks</th>
+                        <th>Amount Due</th>
+                        <th>Total Balance</th>
+                        <th>Notes</th>
                     <tbody>
-                    @foreach($grades as $gd)
+                    @foreach($balances as $bal)
                        <tr>
-                        <td>{{$gd->esNo }}</td>
-                        <td>{{$gd->sNo }} </td>
-                        <td>{{$gd->prelim }}</td>
-                        <td>{{$gd->midterm }}</td>
-                        <td>{{$gd->finals }}</td>
-                        <td>{{$gd->remarks}}</td>
+                       <td>{{$bal->sNo }} </td>
+                        <td>{{ number_format($bal->amountDue)}}</td>
+                        <td>{{ number_format($bal->totalBalance)}} </td>
+                        <td>{{$bal->notes }}</td>
                     </tr>
                         @endforeach
                    </tbody>
 
                     </table>
-                    <a class="mt-4 bg-blue-200 text-black font-bold py-2 px-4 rounded" href="{{route('grade')}}"> Back </a>
+                    <a class="mt-4 bg-blue-200 text-black font-bold py-2 px-4 rounded" href="{{route('balance')}}"> Back </a>
                     
                 </div>
             </div>

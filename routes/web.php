@@ -3,11 +3,10 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentInfoController;
-use App\Models\StudentInfo;
 use App\Http\Controllers\EnrolledSubjectsController;
-use App\Models\EnrolledSubjects;
 use App\Http\Controllers\GradesController;
-use App\Models\Grades;
+use App\Http\Controllers\BalancesController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -33,10 +32,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-Route::get('/addstudent',[StudentInfoController:: class, 'index']);
-Route::get('/addsubject',[EnrolledSubjectsController:: class, 'index']);
-Route::get('/addgrade',[GradesController:: class, 'index']);
 
 //students
 Route::get('/students/add', function () {
@@ -84,7 +79,7 @@ Route::get('/subjects/{subjno}', [EnrolledSubjectsController::class, 'show'])
 ->middleware(['auth', 'verified'])
 ->name('subjects-show');
 
-Route::delete('/students/delete/{subjno}', [EnrolledSubjectsController::class, 'destroy'])
+Route::delete('/subjects/delete/{subjno}', [EnrolledSubjectsController::class, 'destroy'])
 ->middleware(['auth', 'verified'])
 ->name('subjects-delete');
 
@@ -109,20 +104,61 @@ Route::get('/grade', [GradesController::class, 'index'])
    ->middleware(['auth', 'verified'])
    ->name('grade');
 
-Route::get('/grade/{subjno}', [GradesController::class, 'show']) 
+Route::get('/grade/{gradno}', [GradesController::class, 'show']) 
    ->middleware(['auth', 'verified'])
    ->name('grade-show');
 
-Route::delete('/grade/delete/{subjno}', [GradesController::class, 'destroy']) 
+Route::delete('/grade/delete/{gradno}', [GradesController::class, 'destroy']) 
    ->middleware(['auth', 'verified'])
    ->name('grade-delete');
 
-Route::get('/grade/edit/{subjno}', [GradesController::class, 'edit']) 
+Route::get('/grade/edit/{gradno}', [GradesController::class, 'edit']) 
    ->middleware(['auth', 'verified'])
    ->name('grade-edit');
 
-Route::patch('/grade/update/{subjno}', [GradesController::class, 'update']) 
+Route::patch('/grade/update/{gradno}', [GradesController::class, 'update']) 
    ->middleware(['auth', 'verified'])
    ->name('grade-update');
+
+   Route::get('/grade/add', [GradesController::class, 'getStudentInfo','add']) 
+   ->middleware(['auth', 'verified'])
+   ->name('add-grade');
+
+   Route::get('/grade/add', [GradesController::class, 'getEnrolledSubjects'])
+     ->middleware(['auth', 'verified'])
+     ->name('add-grade');
+
+//balances
+Route::get('/balance/add', function () {
+    return view('balance.add');
+})->middleware(['auth', 'verified'])->name('add-balance');
+
+Route::post('/balance/add',[BalancesController::class, 'store'] )
+->middleware(['auth', 'verified'])
+->name('balance-store');
+
+Route::get('/balance', [BalancesController::class, 'index']) 
+   ->middleware(['auth', 'verified'])
+   ->name('balance');
+
+Route::get('/balance/{balnum}', [BalancesController::class, 'show']) 
+   ->middleware(['auth', 'verified'])
+   ->name('balance-show');
+
+Route::delete('/balance/delete/{balnum}', [BalancesController::class, 'destroy']) 
+   ->middleware(['auth', 'verified'])
+   ->name('balance-delete');
+
+Route::get('/balance/edit/{balnum}', [BalancesController::class, 'edit']) 
+   ->middleware(['auth', 'verified'])
+   ->name('balance-edit');
+
+Route::patch('/balance/update/{balnum}', [BalancesController::class, 'update']) 
+   ->middleware(['auth', 'verified'])
+   ->name('balance-update');
+
+   Route::get('/balance/add', [BalancesController::class, 'getStudentInfo'])
+   ->middleware(['auth', 'verified'])
+   ->name('add-balance');
 
 require __DIR__.'/auth.php';

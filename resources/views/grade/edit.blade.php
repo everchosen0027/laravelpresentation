@@ -18,40 +18,29 @@
                          </ul>
                     @endif
                     @foreach($grades as $gd)
-                    <form method = "POST" action="{{ route('grade-update',['subjno' => $gd->esNo]) }}">
+                    <form method = "POST" action="{{ route('grade-update',['gradno' => $gd->gNo]) }}">
                         @csrf
                         @method('patch')
-                       <div class="flex-items-center"><label for="Grade Number">Grade Number</label>
-                    <div>
-                        <input type="text" name="xidNo" value="{{$gd->gNo}}"/>
-                    </div>
-                </div>
-                    <div class="flex-items-center"><label for="Enrolled Subjects Number">Enrolled Subjects Number</label>
-                    <div>
-                    <input type="text" name="xesNo" value="{{$gd->esNo}}"/>
-                    </div>
-                    </div>
-                       <div class="flex-items-center"><label for="Student Number">Student Number</label>
-                    <div>
-                    <input type="text" name="xsNo" value="{{$gd->sNo}}"/>
-                    </div>
-                    </div>
-                       <div class="flex-items-center"><label for="Prelim">Prelim</label>
+                    
+                    <div class="flex-items-center"><label for="Prelim">Prelim</label>
                     <div>
                     <input type="decimal" precision="3" scale="2" name="xprelim" value="{{$gd->prelim}}"/>
                     </div>
                     </div>
-                       <div class="flex-items-center"><label for="Midterm">Midterm</label>
+
+                    <div class="flex-items-center"><label for="Midterm">Midterm</label>
                     <div>
                     <input type="decimal" precision="3" scale="2" name="xmidterm" value="{{$gd->midterm}}"/>
                     </div>
                     </div>
-                       <div class="flex-items-center"><label for="Final">Final</label>
+
+                    <div class="flex-items-center"><label for="Final">Final</label>
                     <div> 
-                    <input type="decimal" precision="3" scale="2" name="xfinal" value="{{$gd->final}}"/>
+                    <input type="decimal" precision="3" scale="2" name="xfinals" value="{{$gd->finals}}"/>
                     </div>
                     </div>
-                       <div class="flex-items-center"><label for="Remarks">Remarks</label>
+                    
+                    <div class="flex-items-center"><label for="Remarks">Remarks</label>
                     <div>
                     <input type="text" name="xremarks" value="{{$gd->remarks}}"/>
                     </div>

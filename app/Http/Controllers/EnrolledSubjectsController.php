@@ -101,7 +101,7 @@ class EnrolledSubjectsController extends Controller
     public function destroy(string $id)
     {
         //
-        $enrolled_subjects = EnrolledSubjects::where('esNo', $id);
+       $enrolled_subjects = EnrolledSubjects::where('esNo', $id);
        $enrolled_subjects->delete();
        return redirect()->route('subjects');
     }

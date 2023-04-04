@@ -19,36 +19,50 @@
                     @endif
                 <form method = "POST" action="{{ route('grade-store') }}">
                         @csrf
-                    <div class="flex-items-center"><label for="Enrolled Subject Number">Enrolled Subject Number</label>
+                    <div class="flex-items-center"><label for="Subject Number">Subject Number</label>
                     <div>
-                    <input type="text" name="xesNo" value="{{old('xesNo')}}"/>
+                    <select name="xesNo">
+                        @foreach ($enrolled_subjects as $enrollsubj)
+                                <option value="{{$enrollsubj->esNo}}">{{$enrollsubj->subjectCode}} - {{$enrollsubj->description}}</option>
+                                    @endforeach
+                            </select>
                     </div>
                     </div>
-                       <div class="flex-items-center"><label for="Student Number">Student Number</label>
+
+                    <div class="flex-items-center"><label for="Student Number">Student Number</label>
                     <div>
-                    <input type="text" name="sNo" value="{{old('sNo')}}"/>
+                        <select name="xsNo">
+                            @foreach($studentinfo as $stuinfo)
+                            <option value="{{$stuinfo->sno }}"> {{$stuinfo ->idNo}} -- {{$stuinfo->lastName}},{{$stuinfo->firstName}},{{$stuinfo->middleName}}</option>
+                            @endforeach
+                        </select>
                     </div>
                     </div>
-                       <div class="flex-items-center"><label for="Prelim">Prelim</label>
+
+                    <div class="flex-items-center"><label for="Prelim">Prelim</label>
                     <div>
                     <input type="number" precision="3" scale="2" name="xprelim" value="{{old('xprelim')}}"/>
                     </div>
                     </div>
+
                     <div class="flex-items-center"><label for="Midterm">Midterm</label>
                     <div>
                     <input type="number" precision="3" scale="2" name="xmidterm" value="{{old('xmidterm')}}"/>
                     </div>
                     </div>
+
                     <div class="flex-items-center"><label for="Final">Final</label>
                     <div>
-                    <input type="number" precision="3" scale="2" name="xfinal" value="{{old('xfinal')}}"/>
+                    <input type="number" precision="3" scale="2" name="xfinals" value="{{old('xfinals')}}"/>
                     </div>
                     </div>
-                   <div class="flex-items-center"><label for="Remarks">Remarks</label>
+
+                    <div class="flex-items-center"><label for="Remarks">Remarks</label>
                     <div>
                     <input type="text" name="xremarks" value="{{old('xremarks')}}"/>
                     </div>
                     </div>
+                    
              <button type ="submit"> Submit Info </button>
                    </form>
                 </div>

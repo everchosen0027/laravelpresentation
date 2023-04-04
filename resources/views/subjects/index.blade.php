@@ -22,14 +22,14 @@
                         <tbody>
                             @foreach ($enrolled_subjects as $enrollsubj)
                             <tr>
-                                <td>{{ $enrolled_subjects->subjectCode }}</td>
-                                <td>{{ $enrolled_subjects->description }}</td>
-                                <td>{{ $enrolled_subjects->units }}</td>
-                                <td>{{ $enrolled_subjects->schedule }}</td>
+                                <td>{{ $enrollsubj->subjectCode }}</td>
+                                <td>{{ $enrollsubj->description }}</td>
+                                <td>{{ $enrollsubj->units }}</td>
+                                <td>{{ $enrollsubj->schedule }}</td>
                                 <td>
                                     <a class="mt-4 bg-teal-200 hover:bg-teal-500 text-black font-bold py-2 px-4 rounded" href="{{ route('subjects-show', ['subjno' => $enrollsubj->esNo ]) }}">View</a>
                                     <a class="mt-4 bg-blue-200 hover:bg-blue-500 text-black font-bold py-2 px-4 rounded" href="{{ route('subjects-edit', ['subjno' => $enrollsubj->esNo ]) }}">Edit</a>
-                                    <form method="POST" action="{{ route('subjects-delete', ['subjno'=>$enrollsubj->esNo]) }}" onclick="return confirm('Are you sure you want to delete this?')">
+                                    <form method="POST" action="{{ route('subjects-delete', ['subjno'=> $enrollsubj->esNo]) }}" onclick="return confirm('Are you sure you want to delete this?')">
                                         @csrf
                                         @method('delete')
                                         <button class="mt-4 bg-red-200 hover:bg-red-500 text-black font-bold py-2 px-4 rounded" type="submit">Delete</button>
